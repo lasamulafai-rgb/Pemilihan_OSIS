@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pemilihan Ketua OSIS Online</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Pemilihan Ketua OSIS</h1>
+  <p>Isi nama kamu dan pilih calon ketua OSIS:</p>
+
+  <input type="text" id="nama" placeholder="Nama kamu">
+  <div id="calon-container">
+    <div class="calon">
+      <img src="https://via.placeholder.com/120" alt="Calon 1">
+      <h3>Andi</h3>
+      <button onclick="kirimSuara('Andi')">Pilih</button>
+    </div>
+    <div class="calon">
+      <img src="https://via.placeholder.com/120" alt="Calon 2">
+      <h3>Budi</h3>
+      <button onclick="kirimSuara('Budi')">Pilih</button>
+    </div>
+    <div class="calon">
+      <img src="https://via.placeholder.com/120" alt="Calon 3">
+      <h3>Citra</h3>
+      <button onclick="kirimSuara('Citra')">Pilih</button>
+    </div>
+  </div>
+
+  <p id="status"></p>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwRGsDnOZGtxdoTPcZDdFMAxdoaD0lXkbcFxqoimlYgivNwcZh0D6fD9vjQSYtre3hQsg/exec"; // ganti dengan URL dari langkah 2
+
+    async function kirimSuara(calon) {
+      const nama = document.getElementById("nama").value.trim();
+      if (!nama) {
+        alert("Isi nama dulu sebelum memilih!");
+        return;
+      }
+
+      document.getElementById("status").innerText = "Mengirim data...";
+
+      const data = { namaPemilih: nama, calon: calon };
+
+      try {
+        await fetch(scriptURL, {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: { "Content-Type": "application/json" }
+        });
+        document.getElementById("status").innerText = "Terima kasih, suara kamu telah dikirim!";
+      } catch (error) {
+        document.getElementById("status").innerText = "Gagal mengirim suara 😢";
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>
